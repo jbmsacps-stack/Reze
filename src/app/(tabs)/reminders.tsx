@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import {
   Alert,
   ScrollView,
@@ -24,9 +25,11 @@ export default function RemindersScreen() {
   const [dateTime, setDateTime] = useState("");
   const [reminders, setReminders] = useState<Reminder[]>([]);
 
-  useEffect(() => {
+useFocusEffect(
+  useCallback(() => {
     loadReminders();
-  }, []);
+  }, [])
+);
 
   async function loadReminders() {
     const savedReminders = await getReminders();
@@ -57,10 +60,7 @@ export default function RemindersScreen() {
     setTitle("");
     setDateTime("");
 
-    Alert.alert(
-      "Saved",
-      "Reminder saved, JB. Notifications need a development build later 🔔"
-    );
+    Alert.alert("Saved", "Reminder saved, JB. Reze noted it properly 💜");
   }
 
   async function toggleReminder(id: string) {
@@ -101,7 +101,7 @@ export default function RemindersScreen() {
 
         <TextInput
           style={styles.input}
-          placeholder="Note e.g. Today 8:00 PM"
+          placeholder="Time note e.g. Today 8:30 PM"
           placeholderTextColor={colors.textMuted}
           value={dateTime}
           onChangeText={setDateTime}

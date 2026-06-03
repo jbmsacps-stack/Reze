@@ -1,3 +1,4 @@
+import { getRezeReply } from "../../lib/rezeBrain";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import {
@@ -12,7 +13,16 @@ import {
 } from "react-native";
 
 import { REZE_THEME } from "../../constants/rezeTheme";
-import { getSettings } from "../../lib/storage";
+import { parseChatCommand } from "../../lib/chatCommands";
+import {
+  EventItem,
+  Reminder,
+  getEvents,
+  getReminders,
+  getSettings,
+  saveEvents,
+  saveReminders,
+} from "../../lib/storage";
 
 const colors = REZE_THEME.colors;
 const radius = REZE_THEME.radius;
@@ -22,60 +32,6 @@ type Message = {
   sender: "user" | "reze";
   text: string;
 };
-
-function getRezeReply(input: string, userName: string) {
-  const message = input.toLowerCase().trim();
-
-  if (!message) {
-    return `Say something first, ${userName}. I can't read empty air 😏`;
-  }
-
-  if (
-    message.includes("hi") ||
-    message.includes("hello") ||
-    message.includes("hey")
-  ) {
-    return `Hey ${userName}. Reze is awake. Try not to cause chaos immediately 😌`;
-  }
-
-  if (
-    message.includes("bored") ||
-    message.includes("boring") ||
-    message.includes("nothing to do")
-  ) {
-    return `Bored already, ${userName}? Fine. Do one tiny task for 5 minutes. If you still hate it, I’ll allow dramatic complaining.`;
-  }
-
-  if (
-    message.includes("sleep") ||
-    message.includes("tired") ||
-    message.includes("late")
-  ) {
-    return `${userName}, your sleep schedule is not immortal. Go rest before your brain files a complaint 😴`;
-  }
-
-  if (
-    message.includes("study") ||
-    message.includes("exam") ||
-    message.includes("assignment")
-  ) {
-    return `Good. Study mode then, ${userName}. Pick one small topic, set 25 minutes, and don’t run away this time 📚`;
-  }
-
-  if (
-    message.includes("game") ||
-    message.includes("gaming") ||
-    message.includes("play")
-  ) {
-    return `Games are fine, ${userName}. But if one match becomes four hours, I’m judging you silently 🎮`;
-  }
-
-  if (message.includes("reminder") || message.includes("remind")) {
-    return `Reminder saving works now, ${userName}. Actual notifications need a development build later 🔔`;
-  }
-
-  return `Hmm. I heard you, ${userName}. I’m still a simple V1 assistant, so don’t expect genius-level magic yet.`;
-}
 
 export default function ChatScreen() {
   const [input, setInput] = useState("");
@@ -111,7 +67,43 @@ export default function ChatScreen() {
     });
   }
 
-  function sendMessage() {
+  async function handleCommand(trimmedInput: string) {
+    const command = parseChatCommand(trimmedInput);
+
+    if (command.type === "reminder") {
+      const savedReminders = await getReminders();
+
+      const newReminder: Reminder = {
+        id: Date.now().toString(),
+        title: command.title,
+        dateTime: command.dateTime,
+        completed: false,
+      };
+
+      await saveReminders([newReminder, ...savedReminders]);
+
+      return `Done, ${userName}. I saved this reminder: “${command.title}” — ${command.dateTime}. Don’t pretend you forgot later 😏`;
+    }
+
+    if (command.type === "event") {
+      const savedEvents = await getEvents();
+
+      const newEvent: EventItem = {
+        id: Date.now().toString(),
+        title: command.title,
+        dateTime: command.dateTime,
+        note: command.note,
+      };
+
+      await saveEvents([newEvent, ...savedEvents]);
+
+      return `Event saved, ${userName}: “${command.title}” — ${command.dateTime}. Reze has it noted 🗓️`;
+    }
+
+    return null;
+  }
+
+  async function sendMessage() {
     const trimmedInput = input.trim();
 
     if (!trimmedInput) return;
@@ -122,19 +114,18 @@ export default function ChatScreen() {
       text: trimmedInput,
     };
 
+    setMessages((currentMessages) => [...currentMessages, userMessage]);
+    setInput("");
+
+    const commandReply = await handleCommand(trimmedInput);
+
     const rezeMessage: Message = {
       id: Date.now() + 1,
       sender: "reze",
-      text: getRezeReply(trimmedInput, userName),
+      text: commandReply || getRezeReply(trimmedInput, { userName }),
     };
 
-    setMessages((currentMessages) => [
-      ...currentMessages,
-      userMessage,
-      rezeMessage,
-    ]);
-
-    setInput("");
+    setMessages((currentMessages) => [...currentMessages, rezeMessage]);
   }
 
   return (
@@ -145,7 +136,7 @@ export default function ChatScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Reze Chat</Text>
         <Text style={styles.subtitle}>
-          Offline assistant · playful mode active
+          Offline assistant · local command mode active
         </Text>
       </View>
 

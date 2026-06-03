@@ -11,9 +11,9 @@ export const REZE_THEME = {
     primaryDark: "#6d3eea",
     primarySoft: "#b79cff",
 
-    dangerBg: "#24141b",
-    dangerBorder: "#4a2432",
-    dangerText: "#ff8caf",
+    dangerBg: "#191426",
+    dangerBorder: "#3b2b5f",
+    dangerText: "#c4b5fd",
 
     success: "#c4b5fd",
   },

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import {
   Alert,
   ScrollView,
@@ -25,9 +26,11 @@ export default function EventsScreen() {
   const [note, setNote] = useState("");
   const [events, setEvents] = useState<EventItem[]>([]);
 
-  useEffect(() => {
+useFocusEffect(
+  useCallback(() => {
     loadEvents();
-  }, []);
+  }, [])
+);
 
   async function loadEvents() {
     const savedEvents = await getEvents();
