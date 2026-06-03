@@ -1,5 +1,5 @@
-import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 const colors = {
   background: "#07070d",
@@ -22,7 +22,6 @@ export default function TabLayout() {
           fontWeight: "700",
         },
         headerTintColor: colors.text,
-
         tabBarStyle: {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
