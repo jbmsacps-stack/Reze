@@ -1,18 +1,17 @@
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
+import { REZE_THEME } from "../../constants/rezeTheme";
 import {
   EventItem,
   Reminder,
   getEvents,
   getReminders,
 } from "../../lib/storage";
+
+const colors = REZE_THEME.colors;
+const radius = REZE_THEME.radius;
 
 export default function TodayScreen() {
   const [reminders, setReminders] = useState<Reminder[]>([]);
@@ -37,7 +36,7 @@ export default function TodayScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Today</Text>
         <Text style={styles.subtitle}>
-          Your local Reze overview. No cloud, no drama.
+          Your Reze snapshot. Clean, local, and suspiciously organized.
         </Text>
       </View>
 
@@ -66,7 +65,7 @@ export default function TodayScreen() {
 
           {reminders.length === 0 ? (
             <Text style={styles.emptyText}>
-              No reminders saved yet. Suspiciously peaceful, JB.
+              No reminders saved yet. Reze sees the empty list, JB.
             </Text>
           ) : (
             reminders.map((reminder) => (
@@ -80,6 +79,7 @@ export default function TodayScreen() {
                   {reminder.completed ? "✓ " : ""}
                   {reminder.title}
                 </Text>
+
                 <Text style={styles.itemMeta}>{reminder.dateTime}</Text>
               </View>
             ))
@@ -91,7 +91,7 @@ export default function TodayScreen() {
 
           {events.length === 0 ? (
             <Text style={styles.emptyText}>
-              No events saved yet. Your calendar is pretending to be innocent.
+              No events saved yet. Your calendar is acting innocent.
             </Text>
           ) : (
             events.map((event) => (
@@ -114,22 +114,23 @@ export default function TodayScreen() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#07070d",
+    backgroundColor: colors.background,
   },
   header: {
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 14,
     borderBottomWidth: 1,
-    borderBottomColor: "#202032",
+    borderBottomColor: colors.border,
+    backgroundColor: colors.background,
   },
   title: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 28,
-    fontWeight: "800",
+    fontWeight: "900",
   },
   subtitle: {
-    color: "#9b9bae",
+    color: colors.textMuted,
     fontSize: 14,
     marginTop: 4,
   },
@@ -141,16 +142,16 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   summaryCard: {
-    backgroundColor: "#11111c",
+    backgroundColor: colors.surface,
     borderRadius: 22,
     borderWidth: 1,
-    borderColor: "#252539",
+    borderColor: colors.border,
     padding: 16,
   },
   summaryTitle: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 18,
-    fontWeight: "800",
+    fontWeight: "900",
     marginBottom: 14,
   },
   statsRow: {
@@ -159,65 +160,66 @@ const styles = StyleSheet.create({
   },
   statBox: {
     flex: 1,
-    backgroundColor: "#171725",
-    borderRadius: 18,
+    backgroundColor: colors.surfaceSoft,
+    borderRadius: radius.card,
     padding: 14,
     borderWidth: 1,
-    borderColor: "#2a2a40",
+    borderColor: colors.border,
   },
   statNumber: {
-    color: "#ff4f8b",
-    fontSize: 28,
+    color: colors.primarySoft,
+    fontSize: 30,
     fontWeight: "900",
   },
   statLabel: {
-    color: "#b8b8c7",
+    color: colors.textMuted,
     fontSize: 13,
     marginTop: 4,
+    fontWeight: "700",
   },
   section: {
     gap: 10,
   },
   sectionTitle: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 20,
-    fontWeight: "800",
+    fontWeight: "900",
   },
   emptyText: {
-    color: "#9b9bae",
-    backgroundColor: "#11111c",
-    borderRadius: 16,
+    color: colors.textMuted,
+    backgroundColor: colors.surface,
+    borderRadius: radius.input,
     borderWidth: 1,
-    borderColor: "#252539",
+    borderColor: colors.border,
     padding: 14,
     fontSize: 14,
     lineHeight: 21,
   },
   itemCard: {
-    backgroundColor: "#11111c",
-    borderRadius: 16,
+    backgroundColor: colors.surface,
+    borderRadius: radius.input,
     borderWidth: 1,
-    borderColor: "#252539",
+    borderColor: colors.border,
     padding: 14,
     gap: 5,
   },
   itemTitle: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 15,
-    fontWeight: "800",
+    fontWeight: "900",
   },
   itemMeta: {
-    color: "#9b9bae",
+    color: colors.textMuted,
     fontSize: 13,
   },
   itemNote: {
-    color: "#c7c7d6",
+    color: colors.primarySoft,
     fontSize: 14,
     lineHeight: 20,
     marginTop: 4,
   },
   completedText: {
-    color: "#77778a",
+    color: colors.textMuted,
     textDecorationLine: "line-through",
   },
 });

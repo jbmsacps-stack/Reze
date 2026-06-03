@@ -1,14 +1,9 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
-const colors = {
-  background: "#07070d",
-  surface: "#11111c",
-  border: "#242436",
-  text: "#f4f4f7",
-  muted: "#8f90a3",
-  accent: "#ff4f8b",
-};
+import { REZE_THEME } from "../../constants/rezeTheme";
+
+const colors = REZE_THEME.colors;
 
 export default function TabLayout() {
   return (
@@ -19,21 +14,22 @@ export default function TabLayout() {
         },
         headerTitleStyle: {
           color: colors.text,
-          fontWeight: "700",
+          fontWeight: "800",
         },
         headerTintColor: colors.text,
+
         tabBarStyle: {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
-          height: 68,
+          height: 70,
           paddingBottom: 10,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: colors.accent,
-        tabBarInactiveTintColor: colors.muted,
+        tabBarActiveTintColor: colors.primarySoft,
+        tabBarInactiveTintColor: colors.textMuted,
         tabBarLabelStyle: {
           fontSize: 12,
-          fontWeight: "600",
+          fontWeight: "700",
         },
       }}
     >

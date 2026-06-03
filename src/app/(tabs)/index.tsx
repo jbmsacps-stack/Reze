@@ -11,7 +11,11 @@ import {
   View,
 } from "react-native";
 
+import { REZE_THEME } from "../../constants/rezeTheme";
 import { getSettings } from "../../lib/storage";
+
+const colors = REZE_THEME.colors;
+const radius = REZE_THEME.radius;
 
 type Message = {
   id: number;
@@ -140,7 +144,9 @@ export default function ChatScreen() {
     >
       <View style={styles.header}>
         <Text style={styles.title}>Reze Chat</Text>
-        <Text style={styles.subtitle}>Offline rule-based assistant</Text>
+        <Text style={styles.subtitle}>
+          Offline assistant · playful mode active
+        </Text>
       </View>
 
       <ScrollView
@@ -171,7 +177,7 @@ export default function ChatScreen() {
         <TextInput
           style={styles.input}
           placeholder="Talk to Reze..."
-          placeholderTextColor="#77778a"
+          placeholderTextColor={colors.textMuted}
           value={input}
           onChangeText={setInput}
           onSubmitEditing={sendMessage}
@@ -189,22 +195,23 @@ export default function ChatScreen() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#07070d",
+    backgroundColor: colors.background,
   },
   header: {
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 14,
     borderBottomWidth: 1,
-    borderBottomColor: "#202032",
+    borderBottomColor: colors.border,
+    backgroundColor: colors.background,
   },
   title: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 28,
-    fontWeight: "800",
+    fontWeight: "900",
   },
   subtitle: {
-    color: "#9b9bae",
+    color: colors.textMuted,
     fontSize: 14,
     marginTop: 4,
   },
@@ -219,16 +226,18 @@ const styles = StyleSheet.create({
     maxWidth: "82%",
     paddingHorizontal: 14,
     paddingVertical: 11,
-    borderRadius: 18,
+    borderRadius: radius.bubble,
   },
   rezeBubble: {
     alignSelf: "flex-start",
-    backgroundColor: "#151522",
+    backgroundColor: colors.surfaceSoft,
     borderTopLeftRadius: 6,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   userBubble: {
     alignSelf: "flex-end",
-    backgroundColor: "#ff4f8b",
+    backgroundColor: colors.primary,
     borderTopRightRadius: 6,
   },
   messageText: {
@@ -236,11 +245,11 @@ const styles = StyleSheet.create({
     lineHeight: 21,
   },
   rezeText: {
-    color: "#f4f4f7",
+    color: colors.text,
   },
   userText: {
     color: "#ffffff",
-    fontWeight: "600",
+    fontWeight: "700",
   },
   inputBar: {
     flexDirection: "row",
@@ -248,28 +257,28 @@ const styles = StyleSheet.create({
     gap: 10,
     padding: 14,
     borderTopWidth: 1,
-    borderTopColor: "#202032",
-    backgroundColor: "#0d0d16",
+    borderTopColor: colors.border,
+    backgroundColor: colors.surface,
   },
   input: {
     flex: 1,
-    backgroundColor: "#171725",
-    color: "#f4f4f7",
-    borderRadius: 16,
+    backgroundColor: colors.surfaceSoft,
+    color: colors.text,
+    borderRadius: radius.input,
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 15,
     borderWidth: 1,
-    borderColor: "#26263a",
+    borderColor: colors.border,
   },
   sendButton: {
-    backgroundColor: "#ff4f8b",
+    backgroundColor: colors.primary,
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 16,
+    borderRadius: radius.button,
   },
   sendButtonText: {
     color: "#ffffff",
-    fontWeight: "800",
+    fontWeight: "900",
   },
 });

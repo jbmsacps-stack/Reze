@@ -9,11 +9,15 @@ import {
   View,
 } from "react-native";
 
+import { REZE_THEME } from "../../constants/rezeTheme";
 import {
   EventItem,
   getEvents,
   saveEvents,
 } from "../../lib/storage";
+
+const colors = REZE_THEME.colors;
+const radius = REZE_THEME.radius;
 
 export default function EventsScreen() {
   const [title, setTitle] = useState("");
@@ -71,7 +75,7 @@ export default function EventsScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Events</Text>
         <Text style={styles.subtitle}>
-          Add simple events manually. Reze will keep them safe locally.
+          Add plans manually. Reze will keep the schedule tidy.
         </Text>
       </View>
 
@@ -79,7 +83,7 @@ export default function EventsScreen() {
         <TextInput
           style={styles.input}
           placeholder="Event title"
-          placeholderTextColor="#77778a"
+          placeholderTextColor={colors.textMuted}
           value={title}
           onChangeText={setTitle}
         />
@@ -87,7 +91,7 @@ export default function EventsScreen() {
         <TextInput
           style={styles.input}
           placeholder="Date/time e.g. Tomorrow 10:00 AM"
-          placeholderTextColor="#77778a"
+          placeholderTextColor={colors.textMuted}
           value={dateTime}
           onChangeText={setDateTime}
         />
@@ -95,7 +99,7 @@ export default function EventsScreen() {
         <TextInput
           style={[styles.input, styles.noteInput]}
           placeholder="Optional note"
-          placeholderTextColor="#77778a"
+          placeholderTextColor={colors.textMuted}
           value={note}
           onChangeText={setNote}
           multiline
@@ -114,7 +118,7 @@ export default function EventsScreen() {
           <View style={styles.emptyCard}>
             <Text style={styles.emptyTitle}>No events yet</Text>
             <Text style={styles.emptyText}>
-              Add one before your schedule starts acting mysterious.
+              Your schedule is quiet. Suspiciously quiet.
             </Text>
           </View>
         ) : (
@@ -146,57 +150,58 @@ export default function EventsScreen() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#07070d",
+    backgroundColor: colors.background,
   },
   header: {
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 14,
     borderBottomWidth: 1,
-    borderBottomColor: "#202032",
+    borderBottomColor: colors.border,
+    backgroundColor: colors.background,
   },
   title: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 28,
-    fontWeight: "800",
+    fontWeight: "900",
   },
   subtitle: {
-    color: "#9b9bae",
+    color: colors.textMuted,
     fontSize: 14,
     marginTop: 4,
   },
   formCard: {
     margin: 16,
     padding: 14,
-    backgroundColor: "#11111c",
-    borderRadius: 20,
+    backgroundColor: colors.surface,
+    borderRadius: radius.card,
     borderWidth: 1,
-    borderColor: "#252539",
+    borderColor: colors.border,
     gap: 12,
   },
   input: {
-    backgroundColor: "#171725",
-    color: "#f4f4f7",
-    borderRadius: 14,
+    backgroundColor: colors.surfaceSoft,
+    color: colors.text,
+    borderRadius: radius.input,
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 15,
     borderWidth: 1,
-    borderColor: "#2a2a40",
+    borderColor: colors.border,
   },
   noteInput: {
     minHeight: 80,
     textAlignVertical: "top",
   },
   addButton: {
-    backgroundColor: "#ff4f8b",
+    backgroundColor: colors.primary,
     paddingVertical: 13,
-    borderRadius: 14,
+    borderRadius: radius.button,
     alignItems: "center",
   },
   addButtonText: {
     color: "#ffffff",
-    fontWeight: "800",
+    fontWeight: "900",
     fontSize: 15,
   },
   list: {
@@ -209,27 +214,27 @@ const styles = StyleSheet.create({
   },
   emptyCard: {
     padding: 18,
-    backgroundColor: "#11111c",
-    borderRadius: 18,
+    backgroundColor: colors.surface,
+    borderRadius: radius.card,
     borderWidth: 1,
-    borderColor: "#252539",
+    borderColor: colors.border,
   },
   emptyTitle: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 17,
-    fontWeight: "800",
+    fontWeight: "900",
     marginBottom: 6,
   },
   emptyText: {
-    color: "#9b9bae",
+    color: colors.textMuted,
     fontSize: 14,
     lineHeight: 21,
   },
   eventCard: {
-    backgroundColor: "#11111c",
-    borderRadius: 18,
+    backgroundColor: colors.surface,
+    borderRadius: radius.card,
     borderWidth: 1,
-    borderColor: "#252539",
+    borderColor: colors.border,
     padding: 14,
     gap: 12,
   },
@@ -237,16 +242,16 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   eventTitle: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 16,
-    fontWeight: "800",
+    fontWeight: "900",
   },
   eventDate: {
-    color: "#9b9bae",
+    color: colors.textMuted,
     fontSize: 13,
   },
   eventNote: {
-    color: "#c7c7d6",
+    color: colors.primarySoft,
     fontSize: 14,
     lineHeight: 20,
     marginTop: 4,
@@ -255,14 +260,14 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     paddingHorizontal: 12,
     paddingVertical: 8,
-    backgroundColor: "#24141b",
+    backgroundColor: colors.dangerBg,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#4a2432",
+    borderColor: colors.dangerBorder,
   },
   deleteButtonText: {
-    color: "#ff8caf",
-    fontWeight: "700",
+    color: colors.dangerText,
+    fontWeight: "800",
     fontSize: 12,
   },
 });

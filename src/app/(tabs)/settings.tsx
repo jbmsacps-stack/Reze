@@ -9,12 +9,16 @@ import {
   View,
 } from "react-native";
 
+import { REZE_THEME } from "../../constants/rezeTheme";
 import {
   RezeSettings,
   clearRezeData,
   getSettings,
   saveSettings,
 } from "../../lib/storage";
+
+const colors = REZE_THEME.colors;
+const radius = REZE_THEME.radius;
 
 export default function SettingsScreen() {
   const [userName, setUserName] = useState("JB");
@@ -53,32 +57,32 @@ export default function SettingsScreen() {
       "Settings saved",
       `Got it, ${trimmedUserName}. Reze will remember that locally ⚡`
     );
+  }
 
-async function handleClearData() {
-  Alert.alert(
-    "Clear local data?",
-    "This will delete Reze's saved reminders, events, and settings from this phone.",
-    [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Clear",
-        style: "destructive",
-        onPress: async () => {
-          await clearRezeData();
-
-          setUserName("JB");
-          setNotificationsEnabled(true);
-          setDarkModeEnabled(true);
-
-          Alert.alert("Cleared", "Local Reze data has been cleared.");
+  async function handleClearData() {
+    Alert.alert(
+      "Clear local data?",
+      "This will delete Reze's saved reminders, events, and settings from this phone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
         },
-      },
-    ]
-  );
-}
+        {
+          text: "Clear",
+          style: "destructive",
+          onPress: async () => {
+            await clearRezeData();
+
+            setUserName("JB");
+            setNotificationsEnabled(true);
+            setDarkModeEnabled(true);
+
+            Alert.alert("Cleared", "Local Reze data has been cleared.");
+          },
+        },
+      ]
+    );
   }
 
   return (
@@ -86,7 +90,7 @@ async function handleClearData() {
       <View style={styles.header}>
         <Text style={styles.title}>Settings</Text>
         <Text style={styles.subtitle}>
-          Control Reze&apos;s basic local preferences.
+          Tune Reze&apos;s local preferences for this phone.
         </Text>
       </View>
 
@@ -97,7 +101,7 @@ async function handleClearData() {
           <TextInput
             style={styles.input}
             placeholder="Enter your name"
-            placeholderTextColor="#77778a"
+            placeholderTextColor={colors.textMuted}
             value={userName}
             onChangeText={setUserName}
           />
@@ -108,17 +112,17 @@ async function handleClearData() {
             <View style={styles.settingTextBlock}>
               <Text style={styles.settingTitle}>Notifications</Text>
               <Text style={styles.settingDescription}>
-                Placeholder for local notification control.
+                Placeholder. Expo Go notifications are disabled for V1.
               </Text>
             </View>
 
             <Switch
               value={notificationsEnabled}
               onValueChange={setNotificationsEnabled}
-              thumbColor={notificationsEnabled ? "#ff4f8b" : "#77778a"}
+              thumbColor={notificationsEnabled ? colors.primarySoft : colors.textMuted}
               trackColor={{
-                false: "#2a2a40",
-                true: "#5c1f38",
+                false: colors.surfaceSoft,
+                true: colors.primaryDark,
               }}
             />
           </View>
@@ -136,10 +140,10 @@ async function handleClearData() {
             <Switch
               value={darkModeEnabled}
               onValueChange={setDarkModeEnabled}
-              thumbColor={darkModeEnabled ? "#ff4f8b" : "#77778a"}
+              thumbColor={darkModeEnabled ? colors.primarySoft : colors.textMuted}
               trackColor={{
-                false: "#2a2a40",
-                true: "#5c1f38",
+                false: colors.surfaceSoft,
+                true: colors.primaryDark,
               }}
             />
           </View>
@@ -154,7 +158,7 @@ async function handleClearData() {
         </TouchableOpacity>
 
         <Text style={styles.footerNote}>
-          V1 stores everything on this phone only. No login, no backend, no cloud.
+          V1 stores everything on your OPPO F31 5G only. No login, no backend, no cloud.
         </Text>
       </View>
     </View>
@@ -164,22 +168,23 @@ async function handleClearData() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#07070d",
+    backgroundColor: colors.background,
   },
   header: {
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 14,
     borderBottomWidth: 1,
-    borderBottomColor: "#202032",
+    borderBottomColor: colors.border,
+    backgroundColor: colors.background,
   },
   title: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 28,
-    fontWeight: "800",
+    fontWeight: "900",
   },
   subtitle: {
-    color: "#9b9bae",
+    color: colors.textMuted,
     fontSize: 14,
     marginTop: 4,
   },
@@ -188,27 +193,27 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   card: {
-    backgroundColor: "#11111c",
-    borderRadius: 18,
+    backgroundColor: colors.surface,
+    borderRadius: radius.card,
     borderWidth: 1,
-    borderColor: "#252539",
+    borderColor: colors.border,
     padding: 14,
   },
   label: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 14,
-    fontWeight: "800",
+    fontWeight: "900",
     marginBottom: 10,
   },
   input: {
-    backgroundColor: "#171725",
-    color: "#f4f4f7",
-    borderRadius: 14,
+    backgroundColor: colors.surfaceSoft,
+    color: colors.text,
+    borderRadius: radius.input,
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 15,
     borderWidth: 1,
-    borderColor: "#2a2a40",
+    borderColor: colors.border,
   },
   settingRow: {
     flexDirection: "row",
@@ -220,20 +225,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   settingTitle: {
-    color: "#f4f4f7",
+    color: colors.text,
     fontSize: 16,
-    fontWeight: "800",
+    fontWeight: "900",
     marginBottom: 4,
   },
   settingDescription: {
-    color: "#9b9bae",
+    color: colors.textMuted,
     fontSize: 13,
     lineHeight: 19,
   },
   saveButton: {
-    backgroundColor: "#ff4f8b",
+    backgroundColor: colors.primary,
     paddingVertical: 14,
-    borderRadius: 16,
+    borderRadius: radius.button,
     alignItems: "center",
     marginTop: 4,
   },
@@ -242,8 +247,21 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "900",
   },
+  clearButton: {
+    backgroundColor: colors.dangerBg,
+    paddingVertical: 14,
+    borderRadius: radius.button,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: colors.dangerBorder,
+  },
+  clearButtonText: {
+    color: colors.dangerText,
+    fontSize: 15,
+    fontWeight: "900",
+  },
   footerNote: {
-    color: "#77778a",
+    color: colors.textMuted,
     fontSize: 13,
     lineHeight: 20,
     textAlign: "center",

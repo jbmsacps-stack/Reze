@@ -32,10 +32,7 @@ export async function getReminders(): Promise<Reminder[]> {
 }
 
 export async function saveReminders(reminders: Reminder[]) {
-  await AsyncStorage.setItem(
-    STORAGE_KEYS.reminders,
-    JSON.stringify(reminders)
-  );
+  await AsyncStorage.setItem(STORAGE_KEYS.reminders, JSON.stringify(reminders));
 }
 
 export async function getEvents(): Promise<EventItem[]> {
