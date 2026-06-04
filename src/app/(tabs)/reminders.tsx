@@ -1,20 +1,24 @@
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import {
-  Alert,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 import { REZE_THEME } from "../../constants/rezeTheme";
 import {
-  Reminder,
-  getReminders,
-  saveReminders,
+    cancelReminderNotification,
+    scheduleReminderNotification,
+} from "../../lib/notifications";
+import {
+    Reminder,
+    getReminders,
+    saveReminders,
 } from "../../lib/storage";
 
 const colors = REZE_THEME.colors;
@@ -45,11 +49,18 @@ useFocusEffect(
       return;
     }
 
+    const reminderDateTime = trimmedDateTime || "No date/time set";
+    const notificationId = await scheduleReminderNotification(
+      trimmedTitle,
+      reminderDateTime
+    );
+
     const newReminder: Reminder = {
       id: Date.now().toString(),
       title: trimmedTitle,
-      dateTime: trimmedDateTime || "No date/time set",
+      dateTime: reminderDateTime,
       completed: false,
+      notificationId,
     };
 
     const updatedReminders = [newReminder, ...reminders];
@@ -60,21 +71,53 @@ useFocusEffect(
     setTitle("");
     setDateTime("");
 
-    Alert.alert("Saved", "Reminder saved, JB. Reze noted it properly 💜");
+    if (notificationId) {
+      Alert.alert(
+        "Saved",
+        "Reminder saved and notification scheduled, JB. Reze has it noted."
+      );
+      return;
+    }
+
+    Alert.alert(
+      "Saved",
+      "Reminder saved, JB. I couldn’t schedule a notification for that time phrase yet."
+    );
   }
 
   async function toggleReminder(id: string) {
-    const updatedReminders = reminders.map((reminder) =>
-      reminder.id === id
-        ? { ...reminder, completed: !reminder.completed }
-        : reminder
-    );
+    const updatedReminders: Reminder[] = [];
+
+    for (const reminder of reminders) {
+      if (reminder.id !== id) {
+        updatedReminders.push(reminder);
+        continue;
+      }
+
+      const updatedReminder = {
+        ...reminder,
+        completed: !reminder.completed,
+      };
+
+      if (!reminder.completed && reminder.notificationId) {
+        await cancelReminderNotification(reminder.notificationId);
+        updatedReminder.notificationId = null;
+      }
+
+      updatedReminders.push(updatedReminder);
+    }
 
     setReminders(updatedReminders);
     await saveReminders(updatedReminders);
   }
 
   async function deleteReminder(id: string) {
+    const removedReminder = reminders.find((reminder) => reminder.id === id);
+
+    if (removedReminder?.notificationId) {
+      await cancelReminderNotification(removedReminder.notificationId);
+    }
+
     const updatedReminders = reminders.filter((reminder) => reminder.id !== id);
 
     setReminders(updatedReminders);

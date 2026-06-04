@@ -1,5 +1,5 @@
-import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
 
 import { REZE_THEME } from "../../constants/rezeTheme";
 
@@ -25,6 +25,7 @@ export default function TabLayout() {
           paddingBottom: 10,
           paddingTop: 8,
         },
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: colors.primarySoft,
         tabBarInactiveTintColor: colors.textMuted,
         tabBarLabelStyle: {

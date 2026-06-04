@@ -1,0 +1,19 @@
+{
+  "name": "reze-proxy",
+  "version": "1.0.0",
+  "description": "Local Gemini proxy for Reze Android app",
+  "main": "reze-gemini-proxy.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node reze-gemini-proxy.js",
+    "dev": "nodemon reze-gemini-proxy.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

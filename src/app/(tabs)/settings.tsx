@@ -1,29 +1,34 @@
 import { useEffect, useState } from "react";
 import {
-  Alert,
-  StyleSheet,
-  Switch,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert,
+    ScrollView,
+    StyleSheet,
+    Switch,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 import { REZE_THEME } from "../../constants/rezeTheme";
 import {
-  RezeSettings,
-  clearRezeData,
-  getSettings,
-  saveSettings,
+    RezeAIMode,
+    RezeSettings,
+    clearRezeData,
+    getSettings,
+    saveSettings,
 } from "../../lib/storage";
 
 const colors = REZE_THEME.colors;
 const radius = REZE_THEME.radius;
 
 export default function SettingsScreen() {
-  const [userName, setUserName] = useState("JB");
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [darkModeEnabled, setDarkModeEnabled] = useState(true);
+  const [settings, setSettings] = useState<RezeSettings>({
+    userName: "JB",
+    notificationsEnabled: false,
+    darkModeEnabled: true,
+    aiMode: "offline",
+  });
 
   useEffect(() => {
     loadSettings();
@@ -31,137 +36,156 @@ export default function SettingsScreen() {
 
   async function loadSettings() {
     const savedSettings = await getSettings();
+    setSettings(savedSettings);
+  }
 
-    setUserName(savedSettings.userName);
-    setNotificationsEnabled(savedSettings.notificationsEnabled);
-    setDarkModeEnabled(savedSettings.darkModeEnabled);
+  function updateAIMode(aiMode: RezeAIMode) {
+    setSettings((currentSettings) => ({
+      ...currentSettings,
+      aiMode,
+    }));
   }
 
   async function handleSaveSettings() {
-    const trimmedUserName = userName.trim();
-
-    if (!trimmedUserName) {
-      Alert.alert("Missing name", "Reze needs something to call you, genius 😏");
-      return;
-    }
-
-    const updatedSettings: RezeSettings = {
-      userName: trimmedUserName,
-      notificationsEnabled,
-      darkModeEnabled,
-    };
-
-    await saveSettings(updatedSettings);
-
-    Alert.alert(
-      "Settings saved",
-      `Got it, ${trimmedUserName}. Reze will remember that locally ⚡`
-    );
+    await saveSettings(settings);
+    Alert.alert("Saved", "Reze settings updated.");
   }
 
   async function handleClearData() {
-    Alert.alert(
-      "Clear local data?",
-      "This will delete Reze's saved reminders, events, and settings from this phone.",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Clear",
-          style: "destructive",
-          onPress: async () => {
-            await clearRezeData();
-
-            setUserName("JB");
-            setNotificationsEnabled(true);
-            setDarkModeEnabled(true);
-
-            Alert.alert("Cleared", "Local Reze data has been cleared.");
-          },
-        },
-      ]
-    );
+    await clearRezeData();
+    await loadSettings();
+    Alert.alert("Cleared", "Reze local data has been cleared.");
   }
 
   return (
-    <View style={styles.screen}>
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <View style={styles.header}>
         <Text style={styles.title}>Settings</Text>
         <Text style={styles.subtitle}>
-          Tune Reze&apos;s local preferences for this phone.
+          Control how Reze behaves on your device.
         </Text>
       </View>
 
-      <View style={styles.content}>
-        <View style={styles.card}>
-          <Text style={styles.label}>Your name</Text>
+      <View style={styles.card}>
+        <Text style={styles.label}>Your Name</Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your name"
-            placeholderTextColor={colors.textMuted}
-            value={userName}
-            onChangeText={setUserName}
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your name"
+          placeholderTextColor={colors.textMuted}
+          value={settings.userName}
+          onChangeText={(text) =>
+            setSettings((currentSettings) => ({
+              ...currentSettings,
+              userName: text,
+            }))
+          }
+        />
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>AI Mode</Text>
+        <Text style={styles.description}>
+          Offline mode uses Reze’s local brain and works without any online API.
+          Online mode is optional and can be enabled later.
+        </Text>
+
+        <View style={styles.modeRow}>
+          <TouchableOpacity
+            style={[
+              styles.modeButton,
+              settings.aiMode === "offline" && styles.modeButtonActive,
+            ]}
+            onPress={() => updateAIMode("offline")}
+          >
+            <Text
+              style={[
+                styles.modeButtonText,
+                settings.aiMode === "offline" && styles.modeButtonTextActive,
+              ]}
+            >
+              Offline
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.modeButton,
+              settings.aiMode === "online" && styles.modeButtonActive,
+            ]}
+            onPress={() => updateAIMode("online")}
+          >
+            <Text
+              style={[
+                styles.modeButtonText,
+                settings.aiMode === "online" && styles.modeButtonTextActive,
+              ]}
+            >
+              Online
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.smallNote}>
+          Online mode is only a saved setting for now. We’ll connect the API
+          next.
+        </Text>
+      </View>
+
+      <View style={styles.card}>
+        <View style={styles.switchRow}>
+          <View style={styles.switchTextWrap}>
+            <Text style={styles.label}>Notification Reminders</Text>
+            <Text style={styles.description}>
+              Placeholder for later native notification support.
+            </Text>
+          </View>
+
+          <Switch
+            value={settings.notificationsEnabled}
+            onValueChange={(value) =>
+              setSettings((currentSettings) => ({
+                ...currentSettings,
+                notificationsEnabled: value,
+              }))
+            }
           />
         </View>
-
-        <View style={styles.card}>
-          <View style={styles.settingRow}>
-            <View style={styles.settingTextBlock}>
-              <Text style={styles.settingTitle}>Notifications</Text>
-              <Text style={styles.settingDescription}>
-                Placeholder. Expo Go notifications are disabled for V1.
-              </Text>
-            </View>
-
-            <Switch
-              value={notificationsEnabled}
-              onValueChange={setNotificationsEnabled}
-              thumbColor={notificationsEnabled ? colors.primarySoft : colors.textMuted}
-              trackColor={{
-                false: colors.surfaceSoft,
-                true: colors.primaryDark,
-              }}
-            />
-          </View>
-        </View>
-
-        <View style={styles.card}>
-          <View style={styles.settingRow}>
-            <View style={styles.settingTextBlock}>
-              <Text style={styles.settingTitle}>Dark Mode</Text>
-              <Text style={styles.settingDescription}>
-                Placeholder. Reze is dark-only for now.
-              </Text>
-            </View>
-
-            <Switch
-              value={darkModeEnabled}
-              onValueChange={setDarkModeEnabled}
-              thumbColor={darkModeEnabled ? colors.primarySoft : colors.textMuted}
-              trackColor={{
-                false: colors.surfaceSoft,
-                true: colors.primaryDark,
-              }}
-            />
-          </View>
-        </View>
-
-        <TouchableOpacity style={styles.saveButton} onPress={handleSaveSettings}>
-          <Text style={styles.saveButtonText}>Save Settings</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.clearButton} onPress={handleClearData}>
-          <Text style={styles.clearButtonText}>Clear Local Data</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.footerNote}>
-          V1 stores everything on your OPPO F31 5G only. No login, no backend, no cloud.
-        </Text>
       </View>
-    </View>
+
+      <View style={styles.card}>
+        <View style={styles.switchRow}>
+          <View style={styles.switchTextWrap}>
+            <Text style={styles.label}>Dark Mode</Text>
+            <Text style={styles.description}>
+              Reze is designed for a dark purple interface.
+            </Text>
+          </View>
+
+          <Switch
+            value={settings.darkModeEnabled}
+            onValueChange={(value) =>
+              setSettings((currentSettings) => ({
+                ...currentSettings,
+                darkModeEnabled: value,
+              }))
+            }
+          />
+        </View>
+      </View>
+
+      <TouchableOpacity style={styles.saveButton} onPress={handleSaveSettings}>
+        <Text style={styles.saveButtonText}>Save Settings</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.clearButton} onPress={handleClearData}>
+        <Text style={styles.clearButtonText}>Clear Local Data</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.footerNote}>
+        V1 stores everything locally on your phone.
+      </Text>
+    </ScrollView>
   );
 }
 
@@ -170,101 +194,122 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
+  content: {
+    padding: 18,
+    paddingBottom: 36,
+  },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-    backgroundColor: colors.background,
+    marginBottom: 18,
   },
   title: {
     color: colors.text,
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: "900",
   },
   subtitle: {
     color: colors.textMuted,
     fontSize: 14,
-    marginTop: 4,
-  },
-  content: {
-    padding: 16,
-    gap: 14,
+    marginTop: 5,
   },
   card: {
     backgroundColor: colors.surface,
     borderRadius: radius.card,
     borderWidth: 1,
     borderColor: colors.border,
-    padding: 14,
+    padding: 15,
+    marginBottom: 14,
   },
   label: {
     color: colors.text,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "900",
-    marginBottom: 10,
+  },
+  description: {
+    color: colors.textMuted,
+    fontSize: 13,
+    lineHeight: 19,
+    marginTop: 5,
+  },
+  smallNote: {
+    color: colors.textMuted,
+    fontSize: 12,
+    marginTop: 10,
   },
   input: {
     backgroundColor: colors.surfaceSoft,
     color: colors.text,
     borderRadius: radius.input,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 15,
     borderWidth: 1,
     borderColor: colors.border,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginTop: 10,
+    fontSize: 15,
   },
-  settingRow: {
+  modeRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 14,
+  },
+  modeButton: {
+    flex: 1,
+    backgroundColor: colors.surfaceSoft,
+    borderRadius: radius.button,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  modeButtonActive: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primarySoft,
+  },
+  modeButtonText: {
+    color: colors.textMuted,
+    fontWeight: "900",
+  },
+  modeButtonTextActive: {
+    color: "#ffffff",
+  },
+  switchRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     gap: 12,
   },
-  settingTextBlock: {
+  switchTextWrap: {
     flex: 1,
-  },
-  settingTitle: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: "900",
-    marginBottom: 4,
-  },
-  settingDescription: {
-    color: colors.textMuted,
-    fontSize: 13,
-    lineHeight: 19,
   },
   saveButton: {
     backgroundColor: colors.primary,
-    paddingVertical: 14,
     borderRadius: radius.button,
+    paddingVertical: 14,
     alignItems: "center",
     marginTop: 4,
   },
   saveButtonText: {
     color: "#ffffff",
-    fontSize: 15,
     fontWeight: "900",
+    fontSize: 15,
   },
   clearButton: {
     backgroundColor: colors.dangerBg,
-    paddingVertical: 14,
     borderRadius: radius.button,
-    alignItems: "center",
     borderWidth: 1,
     borderColor: colors.dangerBorder,
+    paddingVertical: 14,
+    alignItems: "center",
+    marginTop: 12,
   },
   clearButtonText: {
     color: colors.dangerText,
-    fontSize: 15,
     fontWeight: "900",
+    fontSize: 15,
   },
   footerNote: {
     color: colors.textMuted,
-    fontSize: 13,
-    lineHeight: 20,
     textAlign: "center",
-    marginTop: 8,
+    marginTop: 18,
+    fontSize: 12,
   },
 });
