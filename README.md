@@ -711,8 +711,3 @@ Not a billion-dollar AI startup.
 Just a personally built Android assistant that tries to be useful, slightly funny, and less expensive than running an entire backend empire.
 
 That is Reze.
-
-```
-
-Based on your uploaded Repomix structure: Expo Router tabs, reminders/events/today/settings screens, local notifications, AsyncStorage, offline brain files, and Gemini proxy setup. :contentReference[oaicite:0]{index=0}
-```
