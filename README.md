@@ -1,55 +1,79 @@
 # Reze — Personal Android Assistant 🤖✨
 
-Reze is a personal Android assistant app built with **Expo**, **React Native**, and **TypeScript**.
+Reze is a **personal Android assistant app** built with **Expo**, **React Native**, and **TypeScript**.
 
-It originally started as a simple reminder bot.
+It started as a simple reminder bot.
 
-You know, the innocent kind.
+A very innocent plan.
 
 > “Remind me to drink water.”  
 > “Remind me to sleep.”  
-> “Remind me that I have a life outside my laptop.”
+> “Remind me to stop pretending I will sleep after one more YouTube video.”
 
-Then things escalated.
+Then, naturally, the project escaped containment.
 
-Now Reze can manage reminders, events, today’s schedule, local notifications, offline chat replies, and even switch into an online Gemini-powered mode when needed. Basically, it went from **tiny reminder bot** to **personal assistant with main-character energy**.
+Now Reze supports reminders, events, today’s schedule, local notifications, offline assistant replies, and an optional online Gemini-powered mode.
 
-This app was personally made and designed with **my own daily use in mind** — not as a giant commercial AI product, but as a lightweight assistant that understands my routine, my reminders, my boredom, my projects, and my slightly questionable sleep schedule.
+So yes — this project began as a reminder bot and slowly became a small personal assistant with offline/online switching.
+
+Side projects do this sometimes. They act small, then suddenly ask for architecture.
 
 ---
 
-## 📌 Project Overview
+## 📌 Project Status
 
-**Reze** is a mobile-first personal assistant app focused on:
+Reze is **not a commercial product**.
 
-- Simple chatting
-- Reminder management
-- Event management
-- Today’s schedule
-- Local phone notifications
-- Offline assistant replies
-- Optional online Gemini support
-- A switchable Offline / Online AI mode
+It is currently a **personal project**, made mainly for my own use, my own workflow, and my own daily routine.
 
-It is designed to feel more like a personal companion utility than a generic productivity app.
+However, the project can still be useful for others as a reference.
+
+Developers, students, and beginners can look at this codebase to understand how to build:
+
+- A React Native assistant app
+- A local reminder system
+- Event storage using AsyncStorage
+- Expo local notifications
+- Offline chatbot-style responses
+- Gemini integration using a local proxy
+- Offline / online AI mode switching
+- A simple Android-first productivity assistant
+
+This is not marketed as a finished commercial AI assistant.
+
+This is more like:
+
+> “Here is how I built my own assistant because I wanted one, and because relying on expensive backend systems for every small idea is painful.”
 
 ---
 
 ## 🧠 Why Reze Exists
 
-Most assistant apps try to become everything at once.
+Most assistant apps try to become massive products.
 
-Reze is different.
+Reze does not try to compete with Siri, Google Assistant, ChatGPT, or any futuristic AI assistant that probably has a server room breathing behind it.
 
-Reze was built for one clear purpose:
+Reze has a simpler purpose:
 
-> Help me remember things, manage my day, and talk to me when I am bored — without depending on a paid backend server.
+> Help me manage reminders, events, boredom, study, project work, and daily discipline in a personal way.
 
-The app is personal, local-first, and lightweight. It can work offline using its own built-in response brain, but it can also use Gemini through a local proxy when online mode is enabled.
+It is designed to be:
 
-So yes, Reze can survive without the internet.
+- Lightweight
+- Personal
+- Android-focused
+- Offline-capable
+- Beginner-readable
+- Easy to modify
+- Not dependent on paid backend hosting
 
-Unlike some people during exam season.
+Because let us be honest:
+
+> These days, building “everything” without money is not impossible, but it is definitely not relaxing.
+
+So Reze uses a practical approach.
+
+It works offline using a built-in assistant brain, and when online mode is enabled, it can connect to Gemini through a local proxy.
 
 ---
 
@@ -59,63 +83,88 @@ Unlike some people during exam season.
 
 Reze includes a chat screen where the user can talk casually with the assistant.
 
-The chat supports:
+The chat can respond to topics like:
 
-- Casual replies
-- Study-related replies
-- Sleep reminders
-- Gaming-related nudges
-- Stress and boredom responses
-- Project motivation
-- Debugging encouragement
-- Reminder and event help
+- Greetings
+- Study
+- Sleep
+- Gaming
+- Stress
+- Boredom
+- Project work
+- Focus
+- Planning
+- Debugging
+- Health
+- Motivation
+- Reminder help
+- Event help
 
-The offline brain uses predefined intents, moods, keywords, and reply groups.
+It is not pretending to be a super-intelligent AI.
+
+It is more like a small assistant that says:
+
+> “I may not control your whole life, but I can at least remind you that you have one.”
 
 ---
 
-### 📴 Offline AI Mode
+### 📴 Offline Assistant Mode
 
-Reze includes an offline assistant brain.
+Reze has an offline assistant brain.
 
-This allows the app to respond even when Gemini is not available.
+This allows it to reply without internet access.
 
 Offline mode is useful when:
 
 - Internet is unavailable
-- Gemini API fails
-- The local proxy is not running
-- The user wants fast local responses
-- The app is being used privately without cloud dependency
+- Gemini fails
+- The proxy server is not running
+- The user wants quick local replies
+- The app is being used without cloud dependency
 
-The offline brain is stored inside the app and works without a server.
+The offline brain uses local intent groups, keywords, moods, and predefined replies.
+
+Basically:
+
+> No internet? No problem. Reze still has opinions.
 
 ---
 
 ### 🌐 Online Gemini Mode
 
-Reze also supports an online AI mode using Gemini.
+Reze also supports an online mode using Gemini.
 
-The project includes a local Node.js proxy server that securely reads the Gemini API key from a `.env` file.
+The project includes a local Node.js proxy server that reads the Gemini API key from a `.env` file.
 
-This avoids exposing the API key directly inside the mobile app.
+This keeps the API key away from the mobile app itself.
 
-Online mode can be used for smarter responses while still keeping the main app structure simple.
+Online mode is useful when the assistant needs smarter or more flexible responses.
+
+The idea is simple:
+
+| Mode | Use Case |
+|---|---|
+| Offline | Fast local replies without internet |
+| Online | Gemini-powered replies through proxy |
 
 ---
 
-### 🔁 Offline / Online Switch Mode
+### 🔁 Offline / Online Switch
 
-Reze supports two AI modes:
+Reze supports switching between:
 
-| Mode | Purpose |
-|---|---|
-| Offline | Uses Reze’s built-in local brain |
-| Online | Uses Gemini through the local proxy |
+- Offline mode
+- Online Gemini mode
 
-The user can switch between these modes from the app settings.
+This gives the user control over how the assistant behaves.
 
-This means Reze can behave like a simple offline bot or a Gemini-powered assistant depending on the situation.
+The app does not force online AI for everything.
+
+Sometimes a simple local reply is enough.
+
+Sometimes Gemini is useful.
+
+Sometimes both fail and you realize software development is character development.
 
 ---
 
@@ -132,7 +181,7 @@ Reminder features include:
 - Schedule local phone notifications
 - Cancel reminder notifications when needed
 
-Example use cases:
+Example commands:
 
 ```txt
 Remind me to drink water at 8 PM
@@ -144,7 +193,7 @@ Remind me to sleep in 10 minutes
 
 ### 📅 Events
 
-Reze includes event management.
+Reze can manage events.
 
 Event features include:
 
@@ -153,53 +202,59 @@ Event features include:
 * Store date and time
 * Add optional notes
 * Delete events
-* View upcoming schedule
+* View events later
 
-Example use cases:
+Example commands:
 
 ```txt
-Add event: Java exam tomorrow 10 AM
-Add event: Project review Friday 2 PM
+Add event project review tomorrow 5 PM
+Add event Java exam Friday 10 AM
 ```
 
 ---
 
 ### 🗓️ Today Screen
 
-The Today screen shows the user’s current day overview.
+The Today screen shows a simple daily overview.
 
-It displays:
+It can display:
 
 * Today’s reminders
 * Today’s events
-* Daily schedule information
+* Current schedule items
 
-This makes Reze useful as a lightweight personal dashboard.
+This makes Reze work like a small personal dashboard.
+
+No corporate productivity nonsense.
+
+Just:
+
+> “Here is what you forgot you planned.”
 
 ---
 
 ### 🔔 Local Notifications
 
-Reze uses Expo notifications to schedule reminders directly on the device.
+Reze uses Expo Notifications to schedule local reminder alerts.
 
-This allows reminders to appear as phone notifications.
+This allows reminders to appear as actual phone notifications.
 
-The goal is simple:
-
-> Reze should actually remind me, not just sit inside the app looking cute.
+Because a reminder app that does not remind you is just a notes app with confidence.
 
 ---
 
 ### ⚙️ Settings
 
-The app includes a settings screen where the user can manage:
+The app includes settings for:
 
 * User name
-* Notification preference
-* Dark mode preference
-* AI mode: Offline or Online
-* Proxy URL / online configuration
-* Clear app data option
+* Notifications
+* Dark mode
+* AI mode
+* Online configuration
+* Data clearing
+
+This makes the app easier to personalize and test.
 
 ---
 
@@ -211,20 +266,20 @@ The app includes a settings screen where the user can manage:
 | UI Framework     | React Native            |
 | Language         | TypeScript              |
 | Routing          | Expo Router             |
-| Storage          | AsyncStorage            |
+| Local Storage    | AsyncStorage            |
 | Notifications    | Expo Notifications      |
 | Icons            | Expo Vector Icons       |
 | Online AI        | Gemini                  |
 | Proxy Server     | Node.js + Express       |
 | Styling          | React Native StyleSheet |
-| Platform Focus   | Android                 |
+| Main Platform    | Android                 |
 
 ---
 
 ## 📁 Project Structure
 
 ```txt
-reze/
+reze_v1/
 ├── assets/
 │   └── images/
 ├── scripts/
@@ -261,7 +316,7 @@ reze/
 
 ---
 
-## 🧩 Core Files
+## 🧩 Important Files
 
 ### `src/app/(tabs)/index.tsx`
 
@@ -270,11 +325,12 @@ Main chat screen.
 Handles:
 
 * Chat messages
-* Keyboard-safe input behavior
-* Reminder/event command handling
+* Chat input
+* Keyboard behavior
 * Offline replies
 * Online Gemini replies
-* Message rendering
+* Reminder commands
+* Event commands
 
 ---
 
@@ -285,10 +341,10 @@ Offline assistant logic.
 Handles:
 
 * Keyword matching
-* Intent scoring
+* Intent detection
 * Mood-based replies
 * Follow-up replies
-* Local assistant responses
+* Local assistant behavior
 
 ---
 
@@ -298,16 +354,16 @@ Offline brain data.
 
 Contains:
 
-* Assistant intents
+* Intents
 * Keywords
-* Reply groups
-* Mood styles
+* Replies
+* Assistant moods
 
-This is where Reze’s personality lives.
+This is where Reze’s personality is stored.
 
-Professionally speaking.
+In technical terms, it is structured data.
 
-Emotionally speaking, this is where the chaos is organized.
+In emotional terms, this is where the bot learned sarcasm legally.
 
 ---
 
@@ -318,38 +374,31 @@ Online Gemini integration.
 Handles:
 
 * Gemini prompt building
-* Proxy request handling
+* Local proxy requests
 * Direct Gemini fallback logic
-* Response validation
 * Timeout handling
+* Response validation
 * Online assistant response parsing
 
 ---
 
 ### `src/lib/chatCommands.ts`
 
-Parses chat commands for reminders and events.
+Parses user messages into commands.
 
-Example supported patterns:
-
-```txt
-remind me to study at 8 PM
-add event project review tomorrow
-```
+Used for detecting reminders and events from chat input.
 
 ---
 
 ### `src/lib/notifications.ts`
 
-Handles local notification setup and scheduling.
-
-Used for reminder alerts.
+Handles local notification setup, scheduling, and cancellation.
 
 ---
 
 ### `src/lib/storage.ts`
 
-Handles local app data using AsyncStorage.
+Handles local storage using AsyncStorage.
 
 Stores:
 
@@ -380,28 +429,28 @@ npm install
 
 ---
 
-### 3. Start the Expo App
+### 3. Start the App
 
 ```bash
 npx expo start
 ```
 
-Then open the app using:
+Then open it using:
 
 * Android Emulator
-* Development Build
 * Expo Go
+* Development Build
 * Physical Android device
 
 ---
 
 ## 🌐 Optional Gemini Proxy Setup
 
-Reze can work offline without Gemini.
+Reze can work without Gemini.
 
-But for online mode, set up the local proxy server.
+But if you want online AI mode, set up the local proxy.
 
-### 1. Go to the server folder
+### 1. Open the server folder
 
 ```bash
 cd server
@@ -428,7 +477,7 @@ GEMINI_API_KEY=your_key_here
 REZE_PROXY_PORT=5050
 ```
 
-### 4. Start the proxy server
+### 4. Start the proxy
 
 ```bash
 npm start
@@ -438,15 +487,15 @@ npm start
 
 ## 📱 Android Device Note
 
-When using a physical Android phone, do **not** use:
+On Android, do not use:
 
 ```env
 http://localhost:5050
 ```
 
-Because on Android, `localhost` means the phone itself, not your laptop.
+Because `localhost` means the phone itself, not your laptop.
 
-Use your laptop’s local IP address instead:
+Use your laptop IP address instead:
 
 ```env
 EXPO_PUBLIC_REZE_PROXY_URL=http://192.168.x.x:5050
@@ -462,21 +511,21 @@ EXPO_PUBLIC_REZE_PROXY_URL=http://192.168.1.5:5050
 
 ## 📦 Building APK
 
-This project includes EAS build configuration for APK generation.
+The project includes EAS build configuration for Android APK builds.
 
-### Preview APK Build
+### Preview APK
 
 ```bash
 eas build -p android --profile preview
 ```
 
-### Production APK Build
+### Production APK
 
 ```bash
 eas build -p android --profile production
 ```
 
-The `eas.json` file is already configured to generate APK builds for Android.
+The `eas.json` file is configured for APK output.
 
 ---
 
@@ -485,118 +534,153 @@ The `eas.json` file is already configured to generate APK builds for Android.
 ```txt
 Remind me to drink water at 8 PM
 Remind me to sleep in 10 minutes
-Add event project meeting tomorrow 5 PM
+Add event project review tomorrow 5 PM
+Add event Java exam Friday 10 AM
 What do I have today?
 I am bored
 I need to study
-I am tired
 I played too long
 Help me focus
+I am tired
 ```
-
-Reze will either process the command locally or respond using the selected AI mode.
-
----
-
-## 🎯 Current Project Goal
-
-The goal of Reze is not to replace ChatGPT, Google Assistant, Siri, or any massive AI product.
-
-The goal is smaller and more personal:
-
-> Build a personal assistant that actually fits my routine.
-
-Reze is made for:
-
-* Reminders
-* Events
-* Productivity
-* Study nudges
-* Gaming breaks
-* Sleep reminders
-* Casual conversation
-* Personal motivation
-* Offline-first usage
-
-It is a personal assistant before it is an AI experiment.
-
----
-
-## 🧠 Design Philosophy
-
-Reze follows a simple philosophy:
-
-```txt
-Simple first.
-Useful second.
-Smart third.
-Cute chaos optional.
-```
-
-The app should stay:
-
-* Lightweight
-* Personal
-* Mobile-friendly
-* Offline-capable
-* Easy to modify
-* Not dependent on expensive backend hosting
 
 ---
 
 ## 🔐 Privacy Direction
 
-Reze is designed with local-first usage in mind.
+Reze is designed with a local-first mindset.
 
-Most user data is stored locally using AsyncStorage.
+Most data is stored locally using AsyncStorage.
 
-The Gemini API key is not meant to be placed directly inside the app. Instead, the local proxy server reads it from the server `.env` file.
+The Gemini API key is not meant to be placed directly inside the app. Instead, it should be stored in the local proxy server’s `.env` file.
 
-This helps keep the mobile app safer during development.
+This project does not currently use a commercial backend database.
+
+Why?
+
+Because servers cost money.
+
+And because sometimes the most advanced architecture is:
+
+> “Let me first make it work on my own phone.”
 
 ---
 
-## 🧭 Roadmap
+## 🧠 Future Vision
 
-Possible future improvements:
+This version of Reze is only an early personal assistant experiment.
 
-* Better natural language command parsing
-* Voice input toggle
-* Voice reply toggle
+A more advanced and expert-level assistant bot can be built in the future with better technology exposure, stronger architecture, better AI integration, improved automation, and more resources.
+
+Future versions could include:
+
+* Better natural language understanding
+* Voice input
+* Voice replies
+* Background assistant behavior
 * Health reminders
-* Sleep schedule nudges
-* Gaming break reminders
-* Floating assistant mode
-* Better notification categories
-* Improved offline brain
-* More personality modes
-* APK-ready polished UI
-* Background task support
-* Calendar-style event view
-* Custom assistant avatar
+* Sleep tracking nudges
+* Gaming break alerts
+* Calendar integration
+* Smarter scheduling
+* Better offline brain
+* Cloud sync
+* More secure user accounts
+* More advanced AI memory
+* Custom assistant personality modes
+* APK-ready production polish
+* Floating assistant overlay
+
+But realistically:
+
+> We cannot build every dream feature properly without time, money, infrastructure, APIs, testing devices, and some emotional damage.
+
+This version is the foundation.
+
+The future version can become much stronger as technology access improves.
+
+---
+
+## 🎯 Purpose of This Repository
+
+This repository exists for:
+
+* Personal learning
+* Personal use
+* Code reference
+* React Native practice
+* Expo notification testing
+* Offline assistant experiments
+* Gemini integration testing
+* Android assistant development
+
+It can help others understand how a small personal assistant app can be structured.
+
+It is not presented as a complete commercial product.
+
+It is a learning-first, personal-first project.
 
 ---
 
 ## 👤 Made For
 
-Reze was personally built for my own Android assistant workflow.
+Reze was made with my own routine in mind.
 
-It is not a generic assistant made for everyone.
-
-It was designed around my own use cases:
+It was designed around:
 
 * Studying
 * Coding
 * Project work
-* Forgetting things
+* Forgetting reminders
+* Managing events
 * Staying up too late
-* Asking random questions
-* Needing reminders
-* Needing a small assistant that does not judge too much
+* Asking small questions
+* Needing motivation
+* Getting bored
+* Wanting a small assistant that feels personal
 
-Okay, maybe it judges a little.
+Basically:
 
-Productively.
+> Reze exists because my brain needed a notification system with personality.
+
+---
+
+## 🧭 Design Philosophy
+
+```txt
+Personal first.
+Useful second.
+Smart third.
+Commercial later, maybe.
+Budget: emotionally flexible.
+```
+
+Reze should remain:
+
+* Simple
+* Lightweight
+* Personal
+* Easy to understand
+* Offline-capable
+* Android-friendly
+* Beginner-readable
+* Expandable in the future
+
+---
+
+## ⚠️ Disclaimer
+
+Reze is not a medical assistant, not a professional productivity coach, not a therapist, not a commercial AI platform, and not a replacement for real expert systems.
+
+It is a personal assistant app made for learning, daily productivity, and experimentation.
+
+In simple words:
+
+> Use it, learn from it, improve it — but do not expect it to run your life while you sleep at 3 AM.
+
+Although it may remind you to sleep.
+
+That part is intentional.
 
 ---
 
@@ -610,25 +694,25 @@ This project currently includes the default Expo MIT license file.
 
 Reze started as a reminder bot.
 
-Then it got reminders.
+Then it got events.
 
-Then events.
+Then it got notifications.
 
-Then notifications.
+Then it got an offline brain.
 
-Then offline intelligence.
+Then Gemini entered the chat.
 
-Then Gemini.
+Then the project quietly became a personal assistant.
 
-At this point, it is basically that one small side project that said:
+Not a commercial product.
 
-> “I am just a simple app.”
+Not a billion-dollar AI startup.
 
-And then quietly became an actual personal assistant.
+Just a personally built Android assistant that tries to be useful, slightly funny, and less expensive than running an entire backend empire.
 
 That is Reze.
 
 ```
 
-Grounded from your uploaded Repomix project structure and files. :contentReference[oaicite:0]{index=0}
+Based on your uploaded Repomix structure: Expo Router tabs, reminders/events/today/settings screens, local notifications, AsyncStorage, offline brain files, and Gemini proxy setup. :contentReference[oaicite:0]{index=0}
 ```
